@@ -1,22 +1,16 @@
-# Zig build artifacts
-zig-out/
-*.o
-*.obj
+# Ignore build artifacts
 *.exe
-*.dll
-*.so
-*.dylib
+*.obj
 *.pdb
 
-# Temporary files
+# Ignore temporary files
 *.tmp
 *.log
 
-# IDE/editor settings
+# Ignore editor/project files
 .vscode/
 .idea/
-*.swp
-*.swo
-*~
+
+# Ignore OS files
 .DS_Store
 Thumbs.db
