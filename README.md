@@ -34,3 +34,4 @@ Example JSON output
   {"path":"subdir/image.png","hash":"def456..."}
 ]
 
+In the zigLearning folder there are three files which show the functions on how to open, close, and delete directories in zig. As well as editind and creating files in zig. 
