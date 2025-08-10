@@ -1,0 +1,54 @@
+const std = @import("std");
+const fs = std.fs;
+const print = std.debug.print;
+
+
+//Basic directoy operations, how to open a directory
+pub fn main() !void {
+    
+    // open a directory, can also open sub directories example : directory-1/sub-1
+    
+    var dir = try fs.cwd().openDir(
+       "directory-1", .{
+        .iterate = true,
+        },
+    );
+    defer dir.close();
+
+    //absolute path. can access any file in the computer throught here as long as you input the abs path
+    //var abs = try fs.openDirAbsolute("C:/Users/YouEffOhh/Desktop/resumes", .{});
+    //defer abs.close();
+
+    //create a new directory
+    //try dir.makeDir("new-sub");
+
+    //create new dir, and create a var with the path
+    //var last = try dir.makeOpenPath("directory-1/sub-1", .{});
+    //defer last.close();
+
+    //display path 
+    const allocator = std.heap.page_allocator; 
+    //const path = try last.realpathAlloc(allocator, ".");
+    //print("The path is {s}\n", .{ path }); 
+    //allocator.free(path);
+
+
+    //rename a directory : child/grand-child", "child/renamed-child OR child/grand-child", "renamed-child" 
+    //to change renamed child pwd 
+    //try dir.rename("child/grand-child", "child/renamed-child");
+
+    //walk through the directory, look throughtt he entire directory
+
+    var walker = try dir.walk(allocator); 
+    defer walker.deinit(); 
+
+    while( try walker.next()) |item| {
+        print("Current item is: '{s}' the kind is '{s}'\n", .{item.path, @tagName(item.kind)}); 
+    }
+
+    //delete directory and all its contents using the Tree method 
+    try fs.cwd().deleteTree("directory-1");
+
+
+    print("DONE!\n", .{});
+}

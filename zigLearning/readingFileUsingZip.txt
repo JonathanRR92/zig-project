@@ -1,0 +1,27 @@
+const std = @import("std");
+const fs = std.fs;
+
+pub fn main() !void {
+    var file = try fs.cwd().openFile("zigDirectoryManagement.txt", .{
+        .read = true, // <- was .mode = .read_only
+    });
+    defer file.close();
+
+    const allocator = std.heap.page_allocator;
+
+    const content = try file.readToEndAlloc(allocator, 2_000);
+    defer allocator.free(content);
+    // std.debug.print("The file content is : \n{s}\n", .{content});
+
+    // seek the start of the file
+    try file.seekTo(0);
+
+    // READER NOW NEEDS A SCRATCH BUFFER
+    var scratch: [4096]u8 = undefined;
+    var reader = file.reader(scratch[0..]); // <- pass a buffer
+
+    const byte = try reader.readByte();
+    std.debug.print("The single byte is: '{c}'\n", .{byte});
+
+    // try reader.skipBytes(7, .{});
+}

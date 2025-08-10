@@ -1,0 +1,32 @@
+const std = @import("std");
+
+const fs = std.fs; 
+
+
+// create a file using zig 
+pub fn main() !void {
+     const file = try fs.cwd().createFile(
+        "content.txt",
+        .{ 
+            //replace contents of a file using truncate 
+            .truncate = false, // make false to append to file. 
+
+        },
+     );
+     defer file.close(); 
+
+     //seek to the end 
+     try file.seekFromEnd(0); //seekbackward
+
+
+
+    try file.writeAll(
+        \\
+        \\-------
+        \\
+        \\
+        \\Append, there!
+        \\This file is created and written into it 
+        \\using zig, now it is replaced 
+    ); 
+}
